@@ -12,7 +12,53 @@
 
 ## Webサービス
 
-http://f.hatena.ne.jp/ytyaru/Hatena%20Blog/rss?page=1
+* http://www.hatena.ne.jp/
+* http://f.hatena.ne.jp/ytyaru/Hatena%20Blog/rss?page=1
+
+# 準備
+
+## DBを作成する
+
+* [はてなアカウントDBを作る](http://ytyaru.hatenablog.com/entry/2017/06/30/000000)
+* [はてなブログDBを作る](http://ytyaru.hatenablog.com/entry/2017/07/01/000000)
+    * [はてなAPIで取得したXMLからブログ情報を取得しDBに保存する](http://ytyaru.hatenablog.com/entry/2017/07/04/000000)
+* [はてなブログ記事DBを作る](http://ytyaru.hatenablog.com/entry/2017/07/02/000000)
+    * [はてなAPIで取得したXMLから記事データを取得しDBに保存する](http://ytyaru.hatenablog.com/entry/2017/07/05/000000)
+* [はてなフォトライフDBを作る](http://ytyaru.hatenablog.com/entry/2017/07/03/000000)
+
+## 設定する
+
+対象のはてなID、各種DBへのパス、フォトライフのフォルダ名を指定する。
+
+main.py
+```python
+if __name__ == '__main__':
+    hatena_id = 'ytyaru'
+    client = HatenaSite(
+        hatena_id = hatena_id,
+        path_hatena_accounts_sqlite3 = "meta_Hatena.Accounts.sqlite3",
+        path_hatena_photolife_sqlite3 = "meta_Hatena.PhotoLife.ytyaru.sqlite3"
+    )
+    client.update(subject='Hatena Blog')
+```
+
+`Hatena Blog`フォルダははてなブログから画像をアップロードしたときに配置される画像を含んだフォルダである。
+
+# 実行
+
+```sh
+python3 main.py
+```
+
+# 結果
+
+フォトライフDBにURL作成に必要なIDデータが挿入される。
+
+URLは以下の書式で作成すると思われる。
+
+```
+http://cdn-ak.f.st-hatena.com/images/fotolife/{はてなID1文字目}/{はてなID}/{ItemIDの年月日}/{ItemID(年月日時分秒)}.{FileExtension}
+```
 
 # ライセンス
 
